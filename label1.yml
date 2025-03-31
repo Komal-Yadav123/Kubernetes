@@ -10,3 +10,9 @@ spec:
   containers:
     - name: "c1"
       image: "vimal13/apache-webserver-php"
+
+
+
+
+
+# Reference for selector also
