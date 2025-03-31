@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod                                                # resource type (Pod in this case)
+metadata:        
+ name: techops-pod                                       # unique name for the pod
+ labels:                                                 # to organize and select pods 
+  app: techops                                           # app labels, useful for selectors
+  tier: backend                                          # to identify the application layer
+spec:
+ containers:                                             # containers running in this pod
+ -name: techops-container                                # name of the container   
+  image: nginx:1.23                                      # Docker image for the container
+  ports:    
+  -containerPort: 80                                     # port the container expose internally
+  env:                                                   # environment variables for configurations 
+  -name: ENV               
+   value: production
+  volumeMounts:                                          # volumes mounted inside the container
+   -name: config-volume                                  # volume defined in the "volumes" section 
+    mountPath: /usr/share/nginx/html                     # mount point inside the container
+  voluumes:
+   -name: config-volume                                  # name of the volume 
+    configMap:                                           # use congifMap as the source
+     name: techops-config                                # reference the configMap named "techops-config"
+     
+  restartPolicy: Always                                  # Pod restart policy (Always, OnFailure or never)
+
+  nodeSelector:                                          # schedule pod on specific node
+   disktype: ssd                                         # schedule only on nodes labeled with "disktype=ssd"
+  tolerations:                                           # allows scheduling on tainted nodes
+   -key: "special-taint"                                 # taint key to tolerate
+    operator: "Equal"                                    # exact match or exists
+    value: "true"                                        # value to match
+    effect: "NoExecute"                                  # Effect: NoSchedule (can't schedule) , NoExecute (evict) 
+
+  securityContext:                                       # Pod level security settings
+   runAsUser: 1000                                       # run containers as this userID
+   runAsGroup: 3000                                      # run containers with this Group ID
+   fsGroup: 2000                                         # group qwnership for mounted volumes
+  initCotainers:                                         # runs before the main containers
+   -name: init-techops                                   # init container name
+    image: busybox                                       # Image for init container
+    command: ["sh","-c","echo Init ; sleep 5"]           # setup commands 
