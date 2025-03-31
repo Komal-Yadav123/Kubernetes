@@ -1,0 +1,63 @@
+# Key-Value Pairs (Assigning simple values to keys)
+Fruit: Apple
+Vegetable: Carrot
+Liquid: Water
+Meat: Chicken
+
+# Arrays/ Lists (Representing Multiple values under a single key)
+Fruits:
+  -Orange
+  -Apple
+  -Banana
+Vegetables:
+  -Carrot
+  -Potato
+  -Onion
+
+# Dictionary / Map (Storing structured data in a key-value format)
+Banana:
+  Calories: 105 
+  Fat: 0.4 g
+  Carbs: 27 g
+Grapes:
+  Calories: 62
+  Fat: 0.2 g
+  Carbs: 16 g
+
+# Key-Value Dictionary with Lists (Nesting Dictionary data within Lists)
+Fruits:
+ -Banana:
+   Calories: 105
+   Fat: 0.4 g
+  Carbs: 27 g
+ -Grapes:
+   Calories: 62
+   Fat: 0.2 g
+   Carbs: 16 g
+
+# Dictionary In Dictionary (Representing structured objects)
+Cars:
+ Color: Blue
+ Model:
+  Name: Corvette
+  Year: 1995
+ Transmission: Manual
+ Price: $ 20,000
+
+# List of Dictionaries (Managing Multiple Structured Objects)
+Cars:
+ -Color: Blue
+   Model: Corvette
+   Year: 1995
+   Transmission: Manual
+   Price: $20,000
+-Color: Red
+   Model: Corvette
+   Year: 1995
+   Transmission: Manual
+   Price: $22,000
+-Color: Green
+   Model: Corvette
+   Year: 1995
+   Transmission: Manual
+   Price: $21,000
