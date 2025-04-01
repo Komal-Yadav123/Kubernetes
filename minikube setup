@@ -1,0 +1,56 @@
+1) Install docker desktop on windows using the following link : https://docs.docker.com/desktop/setup/install/windows-install/
+                                     OR 
+  Run the command on windows command prompt : "Docker Desktop Installer.exe" install
+
+
+2) Downloading kubectl.exe:
+curl.exe -LO "https://dl.k8s.io/release/v1.29.1/bin/windows/amd64/kubectl.exe"
+
+
+
+
+Explanation:
+curl.exe: This is a command-line tool used to transfer data with URLs. In Windows, it's typically used to download files.
+-L: This option tells curl to follow HTTP redirects. If the server redirects the download URL, curl will follow it.
+-O: This option tells curl to write the output to a file with the same name as the remote file (in this case, kubectl.exe).
+"https://dl.k8s.io/release/v1.29.1/bin/windows/amd64/kubectl.exe": This is the URL from which the kubectl.exe binary is downloaded. 
+It specifies the Kubernetes version (v1.29.1), the operating system (Windows), and the architecture (amd64).
+
+3) Downloading SHA256 Checksum:
+curl.exe -LO "https://dl.k8s.io/release/v1.29.1/bin/windows/amd64/kubectl.exe.sha256"
+
+
+
+Explanation:
+This command is almost identical to the previous one, but it downloads the SHA256 checksum file (kubectl.exe.sha256) instead of the executable itself.
+Explanation: The SHA256 checksum is used to verify the integrity of the downloaded kubectl.exe file. 
+You can use this checksum to ensure that the file hasn't been corrupted or tampered with during download.
+
+4) Checking kubectl Installation:
+kubectl version --client
+
+
+Explanation:
+kubectl: This is the Kubernetes command-line tool.
+version: This subcommand displays the version information for kubectl.
+--client: This flag specifies that you want to see the client version (the version of kubectl itself).
+
+5)  Installing Minikube:
+winget install -e --id Kubernetes.minikube
+
+Explanation:
+winget: This is the Windows Package Manager, a command-line tool for installing applications on Windows.
+install: This subcommand tells winget to install a package.
+-e: This flag specifies that you want to install the exact specified ID, and not a fuzzy search.
+--id Kubernetes.minikube: This specifies the ID of the package to install, which is Kubernetes.minikube.
+
+6) Starting a Kubernetes Cluster:
+minikube start --driver=docker
+
+Expanation:
+minikube: This is the Minikube command-line tool.
+start: This subcommand starts a Minikube cluster.
+--driver=docker : This flag specifies the driver that Minikube should use to create the virtual machine for the cluster.
+Docker is often preferred for performance, if you have docker desktop installed. VirtualBox is an alternative if docker is not available.
+
+7) 
