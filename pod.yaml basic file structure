@@ -35,7 +35,7 @@ spec:
   securityContext:                                       # Pod level security settings
    runAsUser: 1000                                       # run containers as this userID
    runAsGroup: 3000                                      # run containers with this Group ID
-   fsGroup: 2000                                         # group qwnership for mounted volumes
+   fsGroup: 2000                                         # group ownership for mounted volumes
   initCotainers:                                         # runs before the main containers
    -name: init-techops                                   # init container name
     image: busybox                                       # Image for init container
