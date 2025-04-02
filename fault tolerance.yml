@@ -1,21 +1,21 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: ReplicaSet
 metadata:
-  name: my-deployment
+  name: my-replicaset
   labels:
     app: my-app
 spec:
-  replicas: 3
+  replicas: 3                                          # Desired number of Pod replicas
   selector:
     matchLabels:
-      app: my-app
+      app: my-app                                      # Selector to match Pods
   template:
     metadata:
       labels:
-        app: my-app
+        app: my-app                                    # Labels for the Pods
     spec:
       containers:
-       - name: my-container
-         image: "vimal13/apache-webserver-php"
-         ports:
-          - containerPort: 80
+      - name: my-container
+        image: nginx:latest                            # Container image
+        ports:
+        - containerPort: 80
