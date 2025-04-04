@@ -1,0 +1,179 @@
+1) etcdctl backup
+
+Purpose: This command creates a snapshot (backup) of the etcd data directory.
+Usage:
+etcdctl snapshot save <backup_file> (etcd v3)
+etcdctl backup <backup_file> (etcd v2)
+Explanation:
+<backup_file>: Specifies the path and filename where the backup will be saved.
+This is crucial for data recovery in case of etcd failures.
+In etcd v3, the command was changed to snapshot save.
+Example:
+etcdctl snapshot save etcd_backup.db (etcd v3)
+etcdctl backup etcd_backup.db (etcd v2)
+
+2) etcdctl cluster-health
+
+Purpose: Checks the health of the etcd cluster.
+Usage: etcdctl cluster-health
+Explanation:
+This command verifies that all members of the etcd cluster are running and communicating correctly.
+It's essential for monitoring the stability and availability of your etcd cluster.
+The output will indicate the health status of each member.
+Example: Running etcdctl cluster-health in your terminal will display the health of your etcd cluster.
+
+3) etcdctl mk
+
+Purpose: Creates a key with a given value.
+Usage: etcdctl mk <key> <value>
+Explanation:
+<key>: The key you want to create.
+<value>: The value you want to associate with the key.
+This command is from etcd v2. In etcd v3, etcdctl put is used for this purpose.
+Example: etcdctl mk /mykey "myvalue"
+
+4) etcdctl mkdir
+
+Purpose: Creates a directory (key with a directory flag).
+Usage: etcdctl mkdir <directory>
+Explanation:
+<directory>: The directory you want to create.
+This command is also from etcd v2. In etcd v3, etcd doesn't have the concept of directories in the same way, and keys are stored in a flat namespace.
+Example: etcdctl mkdir /mydir
+
+5) etcdctl set
+
+Purpose: Sets the value of an existing key or creates a new key with a value.
+Usage: etcdctl set <key> <value>
+Explanation:
+<key>: The key you want to set.
+<value>: The value you want to assign to the key.
+Like mk and mkdir, this command is from etcd v2. In etcd v3, etcdctl put is used for both creating and setting key values.
+Example: etcdctl set /mykey "newvalue"
+
+6) etcdctl snapshot save
+
+Description:
+This command creates a snapshot (backup) of the etcd data store.
+It captures the current state of the etcd database, including all keys, values, and metadata, into a single file.
+This snapshot is crucial for data recovery in case of etcd failures or data corruption.
+Usage:
+etcdctl snapshot save <backup_file>
+<backup_file>: The path and filename where the snapshot will be saved.
+Significance:
+Ensures data durability and availability.
+Allows for restoring the etcd cluster to a previous state.
+Essential for disaster recovery and data migration.
+It is very important that these backups are stored in safe locations.
+
+7) etcdctl endpoint health
+Description:
+This command checks the health of each etcd endpoint (member) in the cluster.
+It verifies that each endpoint is reachable and responding correctly.
+It provides a summary of the health status of each etcd member, indicating whether they are healthy or not.
+Usage:
+etcdctl endpoint health
+Significance:
+Monitors the availability and connectivity of etcd members.
+Helps identify and troubleshoot network or connectivity issues.
+Ensures the overall health and stability of the etcd cluster.
+This is very helpful when debugging cluster wide issues.
+
+8) etcdctl get
+
+Description:
+This command retrieves the value associated with a given key from the etcd data store.
+It allows you to read data stored in etcd.
+It can also be used to retrieve ranges of keys or values with various options.
+Usage:
+etcdctl get <key> [options]
+<key>: The key to retrieve.
+[options]: Optional flags to modify the behavior, such as --prefix to retrieve keys with a specific prefix.
+Significance:
+Provides a way to read configuration data or shared state stored in etcd.
+Enables applications to access and use data from etcd.
+Very important for application that rely on etcd.
+
+9) etcdctl put
+
+Description:
+This command sets the value of a given key in the etcd data store.
+It's used to store or update data in etcd.
+This is the primary way to write data into etcd version 3.
+Usage:
+etcdctl put <key> <value> [options]
+<key>: The key to set.
+<value>: The value to associate with the key.
+[options]: Optional flags to modify the behavior, such as --lease to associate a lease with the key.
+Significance:
+Allows for dynamic configuration and data storage.
+Enables distributed coordination and synchronization.
+Provides a centralized storage for shared data.
+This is the etcd v3 replacement for the etcd v2 commands etcdctl set and etcdctl mk.
+
+
+10) export ETCDCTL_API=3
+
+export ETCDCTL_API=3 is a crucial command when working with etcd version 3. Here's a breakdown of its significance:
+
+Purpose:
+
+Specifies the etcd API version: etcd has undergone significant changes between versions 2 and 3. This environment variable tells the etcdctl command-line tool
+which API version to use. Ensures compatibility: Without this variable set to 3, etcdctl might default to API version 2,
+leading to errors or unexpected behavior when interacting with an etcd v3 cluster. Enables v3 features: etcd v3 introduced a new API with different commands and data models.
+Setting ETCDCTL_API=3 unlock the ability to use these v3-specific features.
+
+
+11) --cacert /etc/kubernetes/pki/etcd/ca.crt
+
+Purpose: Specifies the path to the Certificate Authority (CA) certificate file.
+Explanation:
+The CA certificate is used to verify the authenticity of the etcd server's certificate.
+It tells the client that the server's certificate was issued by a trusted authority.
+In Kubernetes, the CA certificate for etcd is often located in /etc/kubernetes/pki/etcd/ca.crt.
+This is important, because without this, the client would not know if the server presenting its certificate is actually who it claims to be.
+
+12) --cert /etc/kubernetes/pki/etcd/server.crt
+
+Purpose: Specifies the path to the client's own certificate file.
+Explanation:
+This certificate is used for client authentication.
+If etcd is configured for mutual TLS (mTLS), the server will require the client to present a valid certificate.
+In Kubernetes, the client certificate for etcd might be located in /etc/kubernetes/pki/etcd/server.crt.
+This allows the etcd server to verify the identity of the client.
+
+13) --key /etc/kubernetes/pki/etcd/server.key
+
+Purpose: Specifies the path to the client's private key file.
+Explanation:
+The private key is used in conjunction with the client certificate for authentication.
+It must be kept secret and protected.
+In Kubernetes, the client private key for etcd might be located in /etc/kubernetes/pki/etcd/server.key.
+This key is what allows the client to prove that it is the owner of the certificate.
+
+14) kubectl exec etcd-controlplane -n kube-system -- sh -c 
+
+kubectl exec etcd-controlplane -n kube-system -- sh -c:
+This part of the command tells Kubernetes to execute a command inside the etcd-controlplane Pod, which is located in the kube-system namespace.
+sh -c starts a shell (sh) and executes the command string that follows.
+This is how we are getting inside of the etcd pod, and allowing us to run etcdctl commands directly against the etcd instance running within the pod.
+
+15) "ETCDCTL_API=3 etcdctl get / \
+
+As discussed earlier, this environment variable sets the etcd API version to 3, ensuring compatibility with etcd v3.
+
+16) --prefix --keys-only --limit=10 / \...
+
+etcdctl get /:
+This is the core etcdctl command. It retrieves data from etcd.
+The / tells etcd to get the data from the root of the etcd database.
+--prefix:
+This option tells etcd to retrieve all keys that have the specified prefix. In this case, since / is specified, it will return all keys.
+--keys-only:
+This option tells etcd to return only the keys, not the values. This is useful when you only need to see the keys stored in etcd.
+--limit=10:
+This option limits the number of keys returned to 10. This is very important, because without the limit, the command could return a very large amount of data, which could cause performance issues.
+The second / is redundant, and can be removed.
+
+17) 
+
