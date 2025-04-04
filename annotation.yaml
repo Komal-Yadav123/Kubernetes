@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-pod
+  annotations:
+    purpose: "testing"
+    version: "v1.0"
+spec:
+  containers:
+  - name: busybox-container
+    image: busybox:latest
+    command: ["sleep", "3600"] # Keep the pod running for an hour
+
+
+
+
+
+# 1. Save the YAML file:
+#   Save the provided YAML code to a file named 'annotation.yaml' in your current directory.
+
+# 2. Apply the Pod:
+kubectl apply -f annotation.yaml
+
+# 3. Verify the Pod is running:
+kubectl get pods
+
+#   This will show you the list of pods, and you should see 'simple-pod' in the list with a status of 'Running'.
+
+# 4. Describe the Pod to see the annotations:
+kubectl describe pod simple-pod
